@@ -53,7 +53,12 @@ public class BudgetServiceImplementation implements BudgetService {
         budgetEntity.setCategory(category);
 
         Float amount = expenseRepository.findSumOfExpensesInDateRange(categoryId, budgetEntity.getStartDate(), budgetEntity.getEndDate());
-        budgetEntity.setCurrentAmount(amount);
+
+        if(amount == null) {
+            budgetEntity.setCurrentAmount(0.0f);
+        } else {
+            budgetEntity.setCurrentAmount(amount);
+        }
 
         return budgetRepository.save(budgetEntity);
     }
@@ -72,6 +77,12 @@ public class BudgetServiceImplementation implements BudgetService {
                                                 existingBudget.getStartDate(), existingBudget.getEndDate());
 
         existingBudget.setCurrentAmount(amount);
+
+        if(amount == null) {
+            budgetEntity.setCurrentAmount(0.0f);
+        } else {
+            budgetEntity.setCurrentAmount(amount);
+        }
 
         return budgetRepository.save(existingBudget);
     }
